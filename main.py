@@ -3,6 +3,12 @@ from tab_recommend import show_recommend_tab
 from tab_update import show_update_tab
 from createdatabase import show_create_database_tab
 
+st.set_page_config(
+        page_title="Hello world",
+        page_icon="rook.jpeg",
+        layout="wide",
+    )
+
 st.title("🎬🎥🍿FilmFinder🎦📽️")
 st.divider()
 st.subheader("Developed By Gaurav Ojha")
