@@ -2,22 +2,6 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 
-# Function to create SQLite database and tables
-def create_database():
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    # Create ratings table
-    cursor.execute('''CREATE TABLE IF NOT EXISTS ratings
-                      (userId INT, movieId INT, rating FLOAT, timestamp INT)''')
-
-    # Create movies table
-    cursor.execute('''CREATE TABLE IF NOT EXISTS movies
-                      (movieId INT, title TEXT, genres TEXT)''')
-
-    conn.commit()
-    conn.close()
-
 # Function to import data from parquet files
 def import_data():
     ratings_df = pd.read_parquet('ratings.parquet')
@@ -49,13 +33,23 @@ def add_entry(userId, movieId, rating, timestamp, title, genres):
     conn.commit()
     conn.close()
 
+# Function to select and display table
+def display_table(table_name):
+    conn = sqlite3.connect('database.db')
+
+    # Retrieve data from selected table
+    query = f"SELECT * FROM {table_name}"
+    df = pd.read_sql(query, conn)
+
+    conn.close()
+
+    # Display the table
+    st.write(df)
+
 # Main function to run the Streamlit app
 def main():
     st.title('Movie Ratings Database')
 
-    # Create database and import data if it hasn't been done yet
-    create_database()
-    import_data()
 
     # Add new entry form
     st.header('Add New Entry')
@@ -69,6 +63,13 @@ def main():
     if st.button('Add Entry'):
         add_entry(userId, movieId, rating, timestamp, title, genres)
         st.success('Entry added successfully!')
+
+    # Select table to display
+    st.header('Select Table to Display')
+    table_name = st.selectbox('Select Table', ['ratings', 'movies'])
+
+    if table_name:
+        display_table(table_name)
 
 if __name__ == '__main__':
     main()
