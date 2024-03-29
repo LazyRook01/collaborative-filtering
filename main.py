@@ -5,7 +5,7 @@ from createdatabase import show_create_database_tab
 
 st.set_page_config(
         page_title="Hello world",
-        page_icon="rook.jpeg",
+        page_icon="rook.png",
         layout="wide",
     )
 
