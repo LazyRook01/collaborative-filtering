@@ -4,8 +4,8 @@ from tab_update import show_update_tab
 from createdatabase import show_create_database_tab
 
 st.set_page_config(
-        page_title="Hello world",
-        page_icon="rook.png",
+        page_title="FilmFinder By LazyRook",
+        page_icon="rook.jpeg",
         layout="wide",
     )
 
